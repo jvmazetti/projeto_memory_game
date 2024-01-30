@@ -1,4 +1,6 @@
 const grid = document.querySelector('.grid');
+const spanPlayer = document.querySelector('.player');
+const spanTimer = document.querySelector('.timer');
 
 const characters = [
     'beth',
@@ -27,7 +29,8 @@ function checkEndGame(){
 
     setTimeout(function(){
         if(disabledCards.length === 20){
-            alert('Parabéns, você venceu !!!');
+            clearInterval(this.loop)
+            alert(`Parabéns, ${spanPlayer.innerHTML} !!! Seu tempo foi: ${spanTimer.innerHTML}`);
         }
     }, 500);
 }
@@ -102,4 +105,17 @@ function loadGame(){
     });
 }
 
-loadGame();
+
+const startTimer = () => {
+    this.loop = setInterval(() => {
+        const currentTime = +spanTimer.innerHTML;
+        spanTimer.innerHTML = currentTime + 1; 
+    }, 1000);
+}
+
+window.onload = () => {
+    const playerName = localStorage.getItem('player')
+    spanPlayer.innerHTML = playerName;
+    startTimer()
+    loadGame();
+}
